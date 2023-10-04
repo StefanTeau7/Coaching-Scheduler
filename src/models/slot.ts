@@ -2,7 +2,7 @@ export interface Slot {
     id: number;
     coach_id: number;
     is_booked: boolean;
-    studentId: number | null; // This will be null if the slot hasn't been booked.
+    student_id: number | null; // This will be null if the slot hasn't been booked.
     date: string; // This can be formatted as 'YYYY-MM-DD'.
     start_time: string; // This can be formatted as 'HH:MM'.
     end_time: string; // This can be formatted as 'HH:MM'.

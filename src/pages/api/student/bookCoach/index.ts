@@ -7,7 +7,7 @@ export default async function handler(req: any, res: any) {
         try {
             await pool.query('BEGIN');
 
-            const updateResult = await pool.query('UPDATE slots SET is_booked=true, coach_id=$1 WHERE id=$2', [coach_id, slot_id]);
+            const updateResult = await pool.query('UPDATE slots SET is_booked=true, coach_id=$1, student_id=$3 WHERE id=$2', [coach_id, slot_id, student_id]);
 
             // Check if the slot with provided slot_id exists
             if (updateResult.rowCount === 0) {

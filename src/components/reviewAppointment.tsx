@@ -28,11 +28,11 @@ const ReviewAppointment: React.FC<reviewAppointmentProps> = ({ slot, onReviewAdd
             .then(data => {
                 if (data.message) {
                     alert(data.message);
+                    onReviewAdded();
                 } else {
                     alert('Error: ' + data.error);
                 }
             });
-        onReviewAdded();
     };
 
     return slot.is_booked ? (
