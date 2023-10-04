@@ -11,8 +11,7 @@ const AddSlotComponent: React.FC<AddSlotComponentProps> = ({ onSlotAdded }) => {
 
     const handleAddSlot = async () => {
         try {
-            const offset = new Date().getTimezoneOffset();
-            const currentDate = new Date(new Date().getTime() - (offset * 60 * 1000)).toISOString().split('T')[0];
+            const currentDate = new Date().toISOString().slice(0,10);
             const fullStartTime = `${currentDate}T${startTime}:00.000Z`;
             const fullEndTime = `${currentDate}T${endTime}:00.000Z`;
             const userId = getCurrentUser().id;

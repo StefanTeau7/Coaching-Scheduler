@@ -4,11 +4,11 @@ import { pool } from '@/db';
 
 
 export default async function handler(req: any, res: any) {
-    console.log('api/coach/addSlot HIT', req.method);
+    console.log('api/coach/addSlot', req.method);
     if (req.method === 'POST') {
         const userId = req.body.userId;
-        const startTimeString = new Date(req.body.startTime).toISOString();
-        const endTimeString = new Date(req.body.endTime).toISOString();
+        const startTimeString = req.body.startTime;
+        const endTimeString = req.body.endTime;
 
         try {
             const result = await pool.query(
