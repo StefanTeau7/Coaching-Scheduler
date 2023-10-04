@@ -14,21 +14,24 @@ export function getCurrentUser() {
     return user ? JSON.parse(user) : null;
 }
 
-export default function MockLogin() {
-
-    async function createUser(user: User) {
-        await fetch(`/api/coach/createCoach`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                userId: user.id,
-                name: user.name,
-            }),
-        });
+async function createUser(user: User) {
+    let route = 'student/createStudent'
+    if (user.type == 'coach') {
+        route = 'coach/createCoach'
     }
+    await fetch(`/api/${route}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            userId: user.id,
+            name: user.name,
+        }),
+    });
+}
 
+export default function MockLogin() {
     const handleLogin = (user: User) => {
         createUser(user);
         // Store the "logged in" user somewhere accessible, like the local storage or a state management library

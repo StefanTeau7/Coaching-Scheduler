@@ -1,6 +1,6 @@
 // pages/index.tsx
 import { User } from '@/models/userModel';
-import { Box, Button, Spinner } from '@chakra-ui/react';
+import { Box, Spinner } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import CoachSchedule from '../components/coachSchedule';
 import NavBar from '../components/navBar';
@@ -32,15 +32,12 @@ const Home: React.FC = () => {
 
     return (
         <Box>
-            <NavBar isCoach={currentUser.type === 'coach'} setIsCoach={(isCoach: boolean) => setCurrentUser({ ...currentUser, type: isCoach ? 'coach' : 'student' })} />
-
+            <NavBar isCoach={currentUser.type === 'coach'} setIsCoach={(isCoach: boolean) => handleLogout()} />
             {currentUser.type === 'coach' ? (
                 <CoachSchedule />
             ) : (
                 <StudentSchedule />
             )}
-            <Button marginTop={60} marginLeft={5}
-                onClick={handleLogout}>Logout</Button>
         </Box>
     );
 }

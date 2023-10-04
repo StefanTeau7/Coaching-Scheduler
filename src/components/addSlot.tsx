@@ -14,7 +14,7 @@ const AddSlotComponent: React.FC = () => {
             const fullEndTime = `${currentDate}T${endTime}:00.000Z`;
 
             const userId = getCurrentUser().id;
-            const response = await fetch(`/api/coach/addSlot`, {
+            await fetch(`/api/coach/addSlot`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -24,14 +24,15 @@ const AddSlotComponent: React.FC = () => {
                     startTime: fullStartTime,
                     endTime: fullEndTime,
                 }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to add slot');
-            }
-
-            const data = await response.json();
-            console.log('Slot added:', data);
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert(data.message);
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                });;
             onClose();
         } catch (error) {
             console.error('Error:', error);
@@ -60,7 +61,7 @@ const AddSlotComponent: React.FC = () => {
 
     return (
         <>
-            <Button colorScheme="teal" mt={4} onClick={onOpen}>
+            <Button colorScheme="teal" ml={4} onClick={onOpen}>
                 Add Availability Slot
             </Button>
             <Modal isOpen={isOpen} onClose={onClose}>

@@ -15,7 +15,7 @@ export default async function handler(req: any, res: any) {
                 'INSERT INTO slots(coach_id, start_time, end_time) VALUES($1, $2, $3) RETURNING *',
                 [userId, startTimeString, endTimeString]
             );
-            res.json(result.rows[0]);
+            return res.status(200).json({ message: 'Slot added successfully.' });
         } catch (error: any) {
             return res.status(500).json({ error: error?.message ?? '' });
         }
