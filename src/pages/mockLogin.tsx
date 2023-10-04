@@ -16,7 +16,21 @@ export function getCurrentUser() {
 
 export default function MockLogin() {
 
+    async function createUser(user: User) {
+        await fetch(`/api/coach/createCoach`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: user.id,
+                name: user.name,
+            }),
+        });
+    }
+
     const handleLogin = (user: User) => {
+        createUser(user);
         // Store the "logged in" user somewhere accessible, like the local storage or a state management library
         localStorage.setItem('currentUser', JSON.stringify(user));
         // Redirect to the dashboard or appropriate page

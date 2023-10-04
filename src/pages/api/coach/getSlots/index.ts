@@ -6,7 +6,8 @@ export default async function handler(req: any, res: any) {
         const { coach_id } = req.query;
 
         try {
-            const result = await pool.query('SELECT * FROM slots WHERE coach_id=$1 AND start_time > NOW()', [coach_id]);
+            // could add 'AND start_time > NOW()' to only include future slots
+            const result = await pool.query('SELECT * FROM slots WHERE coach_id=$1 ', [coach_id]);
             return res.status(200).json(result.rows);
         } catch (err: any) {
             return res.status(500).json({ error: err.message });

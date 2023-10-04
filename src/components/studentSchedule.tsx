@@ -1,7 +1,8 @@
 // components/StudentSchedule.js
 import { Slot } from '@/models/appointment';
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import TimeComponent from './timeComponent';
 
 function StudentSchedule() {
     const [slots, setSlots] = useState<Slot[]>([]);
@@ -22,11 +23,12 @@ function StudentSchedule() {
         });
     };
 
+
     return (
         <Flex direction="column" p={4}>
             {slots && slots.map(slot => (
                 <Box key={slot.id} p={4} border="1px" borderRadius="md" marginBottom={4}>
-                    <Text>{slot.startTime} - {slot.endTime}</Text>
+                    <TimeComponent start_time={slot.start_time} end_time={slot.end_time} />
                     <Button onClick={() => bookSlot(slot.id)} colorScheme="teal" size="sm">
                         Book Slot
                     </Button>
