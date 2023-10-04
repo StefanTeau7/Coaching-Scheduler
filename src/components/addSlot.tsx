@@ -1,8 +1,10 @@
 import { getCurrentUser } from '@/pages/mockLogin';
 import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 import React from 'react';
-
-const AddSlotComponent: React.FC = () => {
+interface AddSlotComponentProps {
+    onSlotAdded: () => void;
+}
+const AddSlotComponent: React.FC<AddSlotComponentProps> = ({ onSlotAdded }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [startTime, setStartTime] = React.useState('');
     const [endTime, setEndTime] = React.useState('');
@@ -12,8 +14,8 @@ const AddSlotComponent: React.FC = () => {
             const currentDate = new Date().toISOString().split('T')[0];
             const fullStartTime = `${currentDate}T${startTime}:00.000Z`;
             const fullEndTime = `${currentDate}T${endTime}:00.000Z`;
-
             const userId = getCurrentUser().id;
+            
             await fetch(`/api/coach/addSlot`, {
                 method: 'POST',
                 headers: {
@@ -34,6 +36,7 @@ const AddSlotComponent: React.FC = () => {
                     }
                 });;
             onClose();
+            onSlotAdded();
         } catch (error) {
             console.error('Error:', error);
         }

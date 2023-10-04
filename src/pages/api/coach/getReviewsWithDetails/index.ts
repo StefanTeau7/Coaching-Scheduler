@@ -17,7 +17,7 @@ export default async function handler(req: any, res: any) {
                 JOIN 
                     students st ON a.student_id = st.id
                 WHERE 
-                    a.coach_id = $1 AND s.end_time < NOW()
+                    a.coach_id = $1
             `;
 
             const result = await pool.query(query, [coach_id]);

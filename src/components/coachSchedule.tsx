@@ -12,6 +12,7 @@ import TimeComponent from './timeComponent';
 const CoachSchedule: React.FC = () => {
     const [schedule, setSchedule] = useState<Slot[]>([]);
     const [pastReviews, setPastReviews] = useState<Appointment[]>([]); // for storing past reviews
+    const [reload, setReload] = useState(false);
 
     useEffect(() => {
         const userId = getCurrentUser().id;
@@ -23,25 +24,34 @@ const CoachSchedule: React.FC = () => {
             },
         })
             .then(response => response.json())
-            .then(data => setSchedule(data));
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setSchedule(data)
+                }
+            }
+            );
 
         // Fetch past reviews with details for the coach
         fetch(`/api/coach/getReviewsWithDetails?coach_id=${userId}`)
             .then(response => response.json())
-            .then(data => setPastReviews(data));
-    }, []);
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setPastReviews(data)
+                }
+            });
+    }, [reload]);
 
     return (
         <Box p={4}>
             <Flex direction="row" mb={4}>
                 <Text fontSize="xl">Coach Schedule</Text>
-                <AddSlotComponent />
+                <AddSlotComponent onSlotAdded={() => setReload(!reload)} />
             </Flex>
             <VStack spacing={4}>
-                {schedule.map((slot, index) => (
+                {schedule && schedule.map((slot, index) => (
                     <HStack key={index} align={"start"} spacing={4}>
                         <TimeComponent start_time={slot.start_time} end_time={slot.end_time} />
-                        < ReviewAppointment slot={slot} />
+                        < ReviewAppointment slot={slot} onReviewAdded={() => setReload(!reload)} />
                     </HStack>
                 ))}
             </VStack>

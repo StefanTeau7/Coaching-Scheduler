@@ -12,7 +12,7 @@ export default async function handler(req: any, res: any) {
                 DO UPDATE SET satisfaction_score = $4, notes = $5
             `, [slot_id, student_id, coach_id, satisfaction_score, notes]);
 
-            return res.status(200).json({ message: 'Record upserted successfully.' });
+            return res.status(200).json({ message: 'Record inserted successfully.' });
         } catch (err: any) {
             return res.status(500).json({ error: err.message });
         }

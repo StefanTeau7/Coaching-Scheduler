@@ -14,7 +14,7 @@ export default async function handler(req: any, res: any) {
             }
 
             // If the user doesn't exist, insert them
-            const insertResult = await pool.query('INSERT INTO coaches(id, name) VALUES($1) RETURNING id', [userId, name]);
+            const insertResult = await pool.query('INSERT INTO coaches(id, name) VALUES($1, $2) RETURNING id', [userId, name]);
             return res.status(200).json({ id: insertResult.rows[0].id });
 
         } catch (err: any) {

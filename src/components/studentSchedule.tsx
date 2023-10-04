@@ -7,13 +7,14 @@ import TimeComponent from './timeComponent';
 
 function StudentSchedule() {
     const [slots, setSlots] = useState<Slot[]>([]);
+    const [reload, setReload] = useState(false);
 
     useEffect(() => {
         // Fetch available slots from your API
         fetch('/api/student/viewAllSlots')
             .then(response => response.json())
             .then(data => setSlots(data));
-    }, []);
+    }, [reload]);
 
     const bookSlot = async (slot: Slot) => {
         const user = getCurrentUser();
@@ -30,6 +31,7 @@ function StudentSchedule() {
         }).then(response => response.json()).then(data => {
             if (data.message) {
                 alert(data.message);
+                setReload(!reload);
             } else {
                 alert('Error: ' + data.error);
             }

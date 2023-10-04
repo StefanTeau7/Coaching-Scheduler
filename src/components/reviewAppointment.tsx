@@ -1,11 +1,12 @@
 import { Button, Input, Text, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 
-interface Props {
+interface reviewAppointmentProps {
     slot: any;
+    onReviewAdded: () => void;
 }
 
-const ReviewAppointment: React.FC<Props> = ({ slot }) => {
+const ReviewAppointment: React.FC<reviewAppointmentProps> = ({ slot, onReviewAdded }) => {
     const [score, setScore] = useState<number>(0);
     const [notes, setNotes] = useState<string>('');
 
@@ -20,6 +21,7 @@ const ReviewAppointment: React.FC<Props> = ({ slot }) => {
                 satisfaction_score: score,
                 notes: notes,
                 coach_id: slot.coach_id,
+                student_id: slot.student_id,
             }),
         })
             .then(response => response.json())
@@ -30,8 +32,8 @@ const ReviewAppointment: React.FC<Props> = ({ slot }) => {
                     alert('Error: ' + data.error);
                 }
             });
+        onReviewAdded();
     };
-    
 
     return slot.is_booked ? (
         <VStack spacing={4}>
